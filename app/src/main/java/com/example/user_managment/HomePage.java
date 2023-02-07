@@ -9,23 +9,39 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class HomePage extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private FirebaseUser user;
+    private FirebaseFirestore db;
+    TextView tx1;
+    Button delete,signout,seedetails,editprof;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
         auth=FirebaseAuth.getInstance();
+        db=FirebaseFirestore.getInstance();
         user= auth.getCurrentUser();
+        delete=findViewById(R.id.Delete);
+        tx1=findViewById(R.id.textView);
+        seedetails=findViewById(R.id.seedetails);
+        signout=findViewById(R.id.signout);
+        editprof=findViewById(R.id.Edit);
     }
 
     public void signout(View view) {
@@ -34,9 +50,7 @@ public class HomePage extends AppCompatActivity {
         startActivity(i);
     }
 
-    public void Deleteprofile(View view) {
-        Showdialog();
-    }
+    public void Deleteprofile(View view) {Showdialog();}
     private void Showdialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(HomePage.this);
         builder.setTitle("Delete");
@@ -48,6 +62,9 @@ public class HomePage extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void unused) {
                         Toast.makeText(HomePage.this, "profile deleted", Toast.LENGTH_SHORT).show();
+                        Deleteuserfromfirestore();
+                        Intent i=new Intent(HomePage.this,MainActivity.class);
+                        startActivity(i);
                     }
                 })
                         .addOnFailureListener(new OnFailureListener() {
@@ -66,11 +83,42 @@ public class HomePage extends AppCompatActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+        
     }
 
     public void Toeditprofile(View view) {
         FragmentTransaction ft =getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frameLayout, new Editprofile());
+        ft.replace(R.id.framelayout, new Editprofile());
         ft.commit();
+        delete.setVisibility(View.GONE);
+        tx1.setVisibility(View.GONE);
+        editprof.setVisibility(View.GONE);
+        signout.setVisibility(View.GONE);
+        seedetails.setVisibility(View.GONE);
+        
+    }
+
+    public void seedetails(View view) {
+        FragmentTransaction ft =getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.framelayout, new seedetails());
+        ft.commit();
+        delete.setVisibility(View.GONE);
+        tx1.setVisibility(View.GONE);
+        editprof.setVisibility(View.GONE);
+        signout.setVisibility(View.GONE);
+        seedetails.setVisibility(View.GONE);
+        
+    }
+    public void Deleteuserfromfirestore(){
+        db.collection("Users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful() && !task.getResult().isEmpty()) {
+                    DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+                    String documentID = documentSnapshot.getId();
+                    db.collection("Users").document(documentID).delete();
+                }
+            }
+        });
     }
 }

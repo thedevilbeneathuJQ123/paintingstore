@@ -1,9 +1,13 @@
 package com.example.user_managment;
 
+import static com.google.firebase.firestore.FieldValue.delete;
+
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +22,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -66,6 +71,13 @@ public class Editprofile extends Fragment {
     public void onStart() {
         super.onStart();
         connectComponents();
+        goback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(),HomePage.class);
+                startActivity(i);
+            }
+        });
         updatebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,15 +91,19 @@ public class Editprofile extends Fragment {
 
     private void Updatedata(String name,String date, String location){
         Map<String,Object> user = new HashMap<>();
-        user.put("name:",name);
-        user.put("date:",date);
-        user.put("location:",location);
+        user.put("name",name);
+        user.put("date",date);
+        user.put("location",location);
+        
         db.collection("Users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful() && !task.getResult().isEmpty()){
                     DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
                     String documentID= documentSnapshot.getId();
+                   db.collection("Users").document(documentID).update("name:",FieldValue.delete());
+                   db.collection("Users").document(documentID).update("location:",FieldValue.delete());
+                   db.collection("Users").document(documentID).update("date:",FieldValue.delete());
                             db.collection("Users").document(documentID).update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
@@ -120,9 +136,10 @@ public class Editprofile extends Fragment {
         newlocation = getView().findViewById(R.id.location2);
         updatebtn = getView().findViewById(R.id.updatebtn);
         db   = FirebaseFirestore.getInstance();
+        goback = getView().findViewById(R.id.goback);
     }
 
-    Button updatebtn;
+    Button updatebtn,goback;
     EditText newname,newdate,newlocation;
     FirebaseFirestore db;
     @Override

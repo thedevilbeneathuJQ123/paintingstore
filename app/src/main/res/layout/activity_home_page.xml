@@ -7,57 +7,76 @@
     tools:context=".HomePage">
 
     <FrameLayout
-        android:id="@+id/frameLayout2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:id="@+id/framelayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="144dp"
+                android:layout_marginBottom="115dp"
+                android:text="This is home Page"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toTopOf="@+id/Delete"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/Delete"
+                android:layout_width="175dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="38dp"
+                android:onClick="Deleteprofile"
+                android:text="Delete profile"
+                app:layout_constraintBottom_toTopOf="@+id/Edit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <Button
+                android:id="@+id/Edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="35dp"
+                android:onClick="Toeditprofile"
+                android:text="Edit profile"
+                app:layout_constraintBottom_toTopOf="@+id/seedetails"
+                app:layout_constraintStart_toStartOf="@+id/Delete"
+                app:layout_constraintTop_toBottomOf="@+id/Delete" />
+
+            <Button
+                android:id="@+id/seedetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:layout_marginBottom="26dp"
+                android:onClick="seedetails"
+                android:text="see details"
+                app:layout_constraintBottom_toTopOf="@+id/signout"
+                app:layout_constraintStart_toStartOf="@+id/Edit"
+                app:layout_constraintTop_toBottomOf="@+id/Edit" />
+
+            <Button
+                android:id="@+id/signout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="13dp"
+                android:layout_marginBottom="147dp"
+                android:onClick="signout"
+                android:text="signout"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/seedetails"
+                app:layout_constraintTop_toBottomOf="@+id/seedetails" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="144dp"
-        android:text="This is home Page"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/signout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="53dp"
-        android:onClick="signout"
-        android:text="signout"
-        app:layout_constraintStart_toStartOf="@+id/Edit"
-        app:layout_constraintTop_toBottomOf="@+id/Edit" />
-
-    <Button
-        android:id="@+id/Edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="40dp"
-        android:onClick="Toeditprofile"
-        android:text="Edit profile"
-        app:layout_constraintStart_toStartOf="@+id/Delete"
-        app:layout_constraintTop_toBottomOf="@+id/Delete" />
-
-    <Button
-        android:id="@+id/Delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="107dp"
-        android:onClick="Deleteprofile"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:text="Delete profile" />
 </androidx.constraintlayout.widget.ConstraintLayout>
