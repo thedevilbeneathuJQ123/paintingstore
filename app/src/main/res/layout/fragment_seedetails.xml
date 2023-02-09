@@ -11,95 +11,104 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/user"
-            android:layout_width="112dp"
-            android:layout_height="51dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="108dp"
-            android:layout_marginBottom="15dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="username:"
-            app:layout_constraintBottom_toTopOf="@+id/location"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            app:layout_constraintBaseline_toBaselineOf="@+id/user"
-            app:layout_constraintStart_toEndOf="@+id/loca" />
-
-        <EditText
-            android:id="@+id/loca"
-            android:layout_width="105dp"
-            android:layout_height="51dp"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="12dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="location:"
-            app:layout_constraintBottom_toTopOf="@+id/birth"
-            app:layout_constraintEnd_toStartOf="@+id/location"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user" />
-
-        <EditText
-            android:id="@+id/location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="74dp"
-            android:layout_marginBottom="15dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            app:layout_constraintBottom_toTopOf="@+id/birthday"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/loca"
-            app:layout_constraintTop_toBottomOf="@+id/user" />
-
-        <EditText
-            android:id="@+id/birth"
-            android:layout_width="105dp"
-            android:layout_height="51dp"
-            android:layout_marginStart="11dp"
-            android:layout_marginEnd="11dp"
-            android:layout_marginBottom="446dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="birthday:"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/birthday"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loca" />
-
-        <EditText
-            android:id="@+id/birthday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="74dp"
-            android:layout_marginBottom="452dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/birth"
-            app:layout_constraintTop_toBottomOf="@+id/location" />
-
         <Button
             android:id="@+id/gobaCK"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="36dp"
-            android:layout_marginTop="83dp"
-            android:text="goback"
-            app:layout_constraintStart_toStartOf="@+id/birthday"
+            android:layout_marginBottom="217dp"
+            android:text="@string/goback"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/birthday" />
+
+        <TextView
+            android:id="@+id/user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="129dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="28dp"
+            android:text="@string/username"
+            android:textAllCaps="true"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold|italic"
+            app:layout_constraintBottom_toTopOf="@+id/location"
+            app:layout_constraintEnd_toStartOf="@+id/username"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="150dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="136dp"
+            android:layout_marginEnd="131dp"
+            android:layout_marginBottom="73dp"
+            android:textColor="#000000"
+            app:layout_constraintBottom_toTopOf="@+id/dateofbirth"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/user"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/Loca"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="13dp"
+            android:text="@string/lcation"
+            android:textAllCaps="true"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold|italic"
+            app:layout_constraintBaseline_toBaselineOf="@+id/location"
+            app:layout_constraintEnd_toStartOf="@+id/location"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="150dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="146dp"
+            android:layout_marginBottom="25dp"
+            android:textColor="#000000"
+            app:layout_constraintBottom_toTopOf="@+id/dateofbirth"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/Loca"
+            app:layout_constraintTop_toBottomOf="@+id/user" />
+
+        <TextView
+            android:id="@+id/dateofbirth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="475dp"
+            android:text="@string/dateofbirth"
+            android:textAllCaps="true"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold|italic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/birthday"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/username" />
+
+        <TextView
+            android:id="@+id/birthday"
+            android:layout_width="150dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="236dp"
+            android:layout_marginEnd="103dp"
+            android:layout_marginBottom="210dp"
+            android:textColor="#050101"
+            app:layout_constraintBottom_toTopOf="@+id/gobaCK"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/dateofbirth"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

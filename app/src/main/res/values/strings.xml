@@ -2,4 +2,8 @@
     <string name="app_name">User_Managment</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="goback">goback</string>
+    <string name="username">Username:</string>
+    <string name="lcation">Lcation:</string>
+    <string name="dateofbirth">dateofbirth:</string>
 </resources>

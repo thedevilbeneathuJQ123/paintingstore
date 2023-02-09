@@ -3,14 +3,22 @@ package com.example.user_managment;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,15 +36,32 @@ public class seedetails extends Fragment {
     private String mParam1;
     private String mParam2;
     private Button goback;
-    private EditText username,birthday,location;
+    private TextView username,birthday,location;
+    FirebaseFirestore fstore;
+    FirebaseAuth fauth;
+    String userid;
 
     @Override
     public void onStart() {
         super.onStart();
-        goback= getView().findViewById(R.id.gobaCK);
-        username= getView().findViewById(R.id.username);
-        birthday= getView().findViewById(R.id.birthday);
-        location= getView().findViewById(R.id.location);
+        goback = getView().findViewById(R.id.gobaCK);
+        username = getView().findViewById(R.id.username);
+        birthday = getView().findViewById(R.id.birthday);
+        location = getView().findViewById(R.id.location);
+        fauth = FirebaseAuth.getInstance();
+        fstore = FirebaseFirestore.getInstance();
+        userid = fauth.getCurrentUser().getUid();
+       DocumentReference documentReference = fstore.collection("Users").document(userid);
+       documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
+                username.setText(documentSnapshot.getString("username"));
+                birthday.setText(documentSnapshot.getString("birthday"));
+                location.setText(documentSnapshot.getString("location"));
+            }
+        });
+        
+        
         goback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

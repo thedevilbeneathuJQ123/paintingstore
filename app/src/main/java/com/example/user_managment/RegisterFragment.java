@@ -104,7 +104,7 @@ public class RegisterFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 Check();
-               User user = new User(etusername.getText().toString().trim(),etlocation.getText().toString().trim(),etdate.getText().toString().trim());
+             /*  User user = new User(etusername.getText().toString().trim(),etlocation.getText().toString().trim(),etdate.getText().toString().trim());
                fstore.collection("Users").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
@@ -118,7 +118,7 @@ public class RegisterFragment extends Fragment{
                                 Toast.makeText(getContext(), "User failed to get added", Toast.LENGTH_SHORT).show();
                                 return;
                             }
-                        });
+                        });*/
             /*    Map<String, Object> user = new HashMap<>();
                 user.put("name",etusername.getText().toString().trim());
                 user.put("location",etlocation.getText().toString().trim() );
@@ -145,8 +145,11 @@ public class RegisterFragment extends Fragment{
         String email = etemailRegister.getText().toString().trim();
         String password = etpasswordRegister.getText().toString().trim();
         String confirmpassword = etconfirmpasswordRegister.getText().toString().trim();
+        String username = etusername.getText().toString().trim();
+        String location = etlocation.getText().toString().trim();
+        String date = etdate.getText().toString().trim();
         Intent i = new Intent(getContext(),HomePage.class);
-        if( email.trim().isEmpty() || password.trim().isEmpty() || confirmpassword.trim().isEmpty())
+        if( email.trim().isEmpty() || password.trim().isEmpty() || confirmpassword.trim().isEmpty() || username.trim().isEmpty() || location.trim().isEmpty() || date.trim().isEmpty())
         {
             Toast.makeText(getContext(), "some feilds are missing!", Toast.LENGTH_SHORT).show();
             return;
@@ -176,6 +179,21 @@ public class RegisterFragment extends Fragment{
                 }
             }
         });
+        User user = new User(etusername.getText().toString().trim(),etlocation.getText().toString().trim(),etdate.getText().toString().trim());
+        fstore.collection("Users").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(getContext(), "User has been added", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "User failed to get added", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                });
     }
 
 
@@ -195,6 +213,7 @@ public class RegisterFragment extends Fragment{
     private FirebaseUser mUser;
     private Button btnRegister,btnGoToLogin;
     private EditText etemailRegister,etpasswordRegister,etconfirmpasswordRegister,etdate,etusername,etlocation;
+     
 
     private void connectComponents() {
         etemailRegister = getView().findViewById(R.id.etEmailRegister);
