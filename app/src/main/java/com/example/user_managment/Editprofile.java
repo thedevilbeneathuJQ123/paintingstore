@@ -94,6 +94,12 @@ public class Editprofile extends Fragment {
         user.put("name",name);
         user.put("date",date);
         user.put("location",location);
+
+        if( name.trim().isEmpty() || date.trim().isEmpty() || location.trim().isEmpty())
+        {
+            Toast.makeText(getContext(), "some feilds are missing!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         
         db.collection("Users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
