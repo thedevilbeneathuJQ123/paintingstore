@@ -29,7 +29,7 @@ public class HomePage extends AppCompatActivity {
     private FirebaseUser user;
     private FirebaseFirestore db;
     TextView tx1;
-    Button delete,signout,seedetails,editprof;
+    Button delete,signout,seedetails,editprof,gotostore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +42,7 @@ public class HomePage extends AppCompatActivity {
         seedetails=findViewById(R.id.seedetails);
         signout=findViewById(R.id.signout);
         editprof=findViewById(R.id.Edit);
+        gotostore=findViewById(R.id.paintingstore);
     }
 
     public void signout(View view) {
@@ -95,7 +96,9 @@ public class HomePage extends AppCompatActivity {
         editprof.setVisibility(View.GONE);
         signout.setVisibility(View.GONE);
         seedetails.setVisibility(View.GONE);
-        
+        gotostore.setVisibility(View.GONE);
+
+
     }
 
     public void seedetails(View view) {
@@ -107,7 +110,9 @@ public class HomePage extends AppCompatActivity {
         editprof.setVisibility(View.GONE);
         signout.setVisibility(View.GONE);
         seedetails.setVisibility(View.GONE);
-        
+        gotostore.setVisibility(View.GONE);
+
+
     }
     public void Deleteuserfromfirestore(){
         db.collection("Users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -120,5 +125,17 @@ public class HomePage extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void gotostore(View view) {
+        FragmentTransaction ft =getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.framelayout, new paintingstore());
+        ft.commit();
+        delete.setVisibility(View.GONE);
+        tx1.setVisibility(View.GONE);
+        editprof.setVisibility(View.GONE);
+        signout.setVisibility(View.GONE);
+        seedetails.setVisibility(View.GONE);
+        gotostore.setVisibility(View.GONE);
     }
 }
