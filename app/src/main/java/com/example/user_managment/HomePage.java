@@ -129,7 +129,7 @@ public class HomePage extends AppCompatActivity {
 
     public void gotostore(View view) {
         FragmentTransaction ft =getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.framelayout, new paintingstore());
+        ft.replace(R.id.framelayout, new paintingstore1());
         ft.commit();
         delete.setVisibility(View.GONE);
         tx1.setVisibility(View.GONE);
