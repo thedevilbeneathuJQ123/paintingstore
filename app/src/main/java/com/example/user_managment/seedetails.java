@@ -3,8 +3,10 @@ package com.example.user_managment;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +14,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -44,24 +49,48 @@ public class seedetails extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
         goback = getView().findViewById(R.id.gobaCK);
-        username = getView().findViewById(R.id.username);
+   
+
+       /* username = getView().findViewById(R.id.username);
         birthday = getView().findViewById(R.id.birthday);
         location = getView().findViewById(R.id.location);
-        fauth = FirebaseAuth.getInstance();
+       // this way cant work because of the emulators i use because of a google service error 
+      fauth = FirebaseAuth.getInstance();  
         fstore = FirebaseFirestore.getInstance();
         userid = fauth.getCurrentUser().getUid();
-       DocumentReference documentReference = fstore.collection("Users").document(userid);
-       documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        
+      DocumentReference documentReference = fstore.collection("Users").document(userid);
+       documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+           @Override
+           public void onSuccess(DocumentSnapshot documentSnapshot) {
+               if(documentSnapshot.exists())
+               {
+                   username.setText(documentSnapshot.getString("username"));
+                   birthday.setText(documentSnapshot.getString("birthday"));
+                   location.setText(documentSnapshot.getString("location"));
+               }
+               else Toast.makeText(getContext(), "data not found", Toast.LENGTH_SHORT).show();
+
+           }
+       })
+               .addOnFailureListener(new OnFailureListener() {
+                   @Override
+                   public void onFailure(@NonNull Exception e) {
+                       Toast.makeText(getContext(), "failed to fetch data", Toast.LENGTH_SHORT).show();
+                   }
+               });*/
+               /*
+      documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
                 username.setText(documentSnapshot.getString("username"));
                 birthday.setText(documentSnapshot.getString("birthday"));
                 location.setText(documentSnapshot.getString("location"));
             }
-        });
-        
-        
+        });*/
+
         goback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,8 +98,7 @@ public class seedetails extends Fragment {
                 startActivity(i);
             }
         });
-        
-    }
+   }
 
     public seedetails() {
         // Required empty public constructor
@@ -107,6 +135,22 @@ public class seedetails extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_seedetails, container, false);
+        View v = inflater.inflate(R.layout.fragment_seedetails, container, false);
+        Bundle bundle = this.getArguments();
+        username = v.findViewById(R.id.username);
+        birthday = v.findViewById(R.id.birthday);
+        location = v.findViewById(R.id.location);
+        try {
+        String data = bundle.getString("username");
+            username.setText(data);
+            data = bundle.getString("location");
+            location.setText(data);
+            data = bundle.getString("birthday");
+            birthday.setText(data);
+        }
+        catch (NullPointerException e) {
+            username.setText("nullpointerexception");
+        }
+        return v;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.user_managment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toolbar;
 
 /**
@@ -27,12 +29,20 @@ public class paintingstore1 extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private Button goback2;
     @Override
     public void onStart() {
         super.onStart();
        // Toolbar tb=getView().findViewById(R.id.toolbar);
        // tb.setTitle("paintingstore");
+        goback2 = getView().findViewById(R.id.goback2);
+        goback2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(),HomePage.class);
+                startActivity(i);
+            }
+        });
     }
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {

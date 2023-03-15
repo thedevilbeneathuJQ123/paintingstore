@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -78,15 +79,6 @@ public class RegisterFragment extends Fragment{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v=inflater.inflate(R.layout.fragment_register, container, false);
-
-        return v;
-    }
-
-    @Override
     public void onStart() {
         super.onStart();
         connectComponents();
@@ -104,6 +96,7 @@ public class RegisterFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 Check();
+                
              /*  User user = new User(etusername.getText().toString().trim(),etlocation.getText().toString().trim(),etdate.getText().toString().trim());
                fstore.collection("Users").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
@@ -137,7 +130,9 @@ public class RegisterFragment extends Fragment{
                                 Log.w(TAG, "Error adding document", e);
                             }
                         });*/
-            }
+
+
+           }
         });
     }
 
@@ -184,7 +179,6 @@ public class RegisterFragment extends Fragment{
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Toast.makeText(getContext(), "User has been added", Toast.LENGTH_SHORT).show();
-                        return;
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -194,6 +188,31 @@ public class RegisterFragment extends Fragment{
                         return;
                     }
                 });
+  
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v=inflater.inflate(R.layout.fragment_register, container, false);
+        btnRegister = v.findViewById(R.id.btnRegister);
+        etdate = v.findViewById(R.id.ETdate);
+        etusername = v.findViewById(R.id.etusername);
+        etlocation = v.findViewById(R.id.etlocation);
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("username",etusername.getText().toString().trim());
+                bundle.putString("location",etlocation.getText().toString().trim());
+                bundle.putString("birthday",etdate.getText().toString().trim());
+                seedetails seedetails = new seedetails();
+                seedetails.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.framelayout,seedetails).commit();
+            }
+        });
+        return v;
     }
 
 
