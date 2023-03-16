@@ -168,6 +168,9 @@ public class RegisterFragment extends Fragment{
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(getContext(), "succeded to create an account", Toast.LENGTH_SHORT).show();
+                    i.putExtra("username",etusername.getText().toString().trim());
+                    i.putExtra("location",etlocation.getText().toString().trim());
+                    i.putExtra("birthday",etdate.getText().toString().trim());
                     startActivity(i);
                 }else{
                     Toast.makeText(getContext(), "failed to create account!", Toast.LENGTH_SHORT).show();
@@ -196,22 +199,36 @@ public class RegisterFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_register, container, false);
-        btnRegister = v.findViewById(R.id.btnRegister);
+     /*   btnRegister = v.findViewById(R.id.btnRegister);
         etdate = v.findViewById(R.id.ETdate);
         etusername = v.findViewById(R.id.etusername);
         etlocation = v.findViewById(R.id.etlocation);
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                seedetails seedetails = new seedetails ();
                 Bundle bundle = new Bundle();
                 bundle.putString("username",etusername.getText().toString().trim());
                 bundle.putString("location",etlocation.getText().toString().trim());
                 bundle.putString("birthday",etdate.getText().toString().trim());
-                seedetails seedetails = new seedetails();
+                seedetails.setArguments(bundle);
+                //getFragmentManager().beginTransaction().add(R.id.frameLayout, seedetails).commit();
+                Check();*/
+
+//Inflate the fragment
+               
+             /*   Bundle bundle = new Bundle();
+                bundle.putString("username",etusername.getText().toString().trim());
+                bundle.putString("location",etlocation.getText().toString().trim());
+                bundle.putString("birthday",etdate.getText().toString().trim());*/
+               /* seedetails seedetails = new seedetails();
                 seedetails.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.framelayout,seedetails).commit();
-            }
-        });
+                FragmentTransaction ft =getActivity().getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.frameLayout, new seedetails());
+                ft.commit();*/
+        /*    }
+        });*/
         return v;
     }
 

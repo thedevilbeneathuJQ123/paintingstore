@@ -102,15 +102,27 @@ public class HomePage extends AppCompatActivity {
     }
 
     public void seedetails(View view) {
-        FragmentTransaction ft =getSupportFragmentManager().beginTransaction();
+       /* FragmentTransaction ft =getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.framelayout, new seedetails());
-        ft.commit();
+        ft.commit();*/
         delete.setVisibility(View.GONE);
         tx1.setVisibility(View.GONE);
         editprof.setVisibility(View.GONE);
         signout.setVisibility(View.GONE);
         seedetails.setVisibility(View.GONE);
         gotostore.setVisibility(View.GONE);
+        Intent i = getIntent();
+        String data = i.getStringExtra("username");
+        seedetails seedetails = new seedetails ();
+        Bundle bundle = new Bundle();
+        bundle.putString("username",data);
+        data = i.getStringExtra("location");
+        bundle.putString("location",data);
+        data = i.getStringExtra("birthday");
+        bundle.putString("birthday",data);
+        seedetails.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().add(R.id.framelayout, seedetails).commit();
+        
 
 
     }

@@ -98,6 +98,21 @@ public class seedetails extends Fragment {
                 startActivity(i);
             }
         });
+        Bundle bundle = this.getArguments();
+        username = getView().findViewById(R.id.username);
+        birthday = getView().findViewById(R.id.birthday);
+        location = getView().findViewById(R.id.location);
+        try {
+            String data = bundle.getString("username");
+            username.setText(data);
+            data = bundle.getString("location");
+            location.setText(data);
+            data = bundle.getString("birthday");
+            birthday.setText(data);
+        }
+        catch (NullPointerException e) {
+            username.setText("nullpointerexception");
+        }
    }
 
     public seedetails() {
@@ -136,21 +151,6 @@ public class seedetails extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_seedetails, container, false);
-        Bundle bundle = this.getArguments();
-        username = v.findViewById(R.id.username);
-        birthday = v.findViewById(R.id.birthday);
-        location = v.findViewById(R.id.location);
-        try {
-        String data = bundle.getString("username");
-            username.setText(data);
-            data = bundle.getString("location");
-            location.setText(data);
-            data = bundle.getString("birthday");
-            birthday.setText(data);
-        }
-        catch (NullPointerException e) {
-            username.setText("nullpointerexception");
-        }
         return v;
     }
 }

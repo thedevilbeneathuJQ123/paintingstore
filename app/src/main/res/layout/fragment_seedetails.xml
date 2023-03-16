@@ -19,96 +19,76 @@
             android:text="@string/goback"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/birthday" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="129dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="28dp"
             android:text="@string/username"
             android:textAllCaps="true"
             android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold|italic"
-            app:layout_constraintBottom_toTopOf="@+id/location"
-            app:layout_constraintEnd_toStartOf="@+id/username"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/username"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/username"
-            android:layout_width="150dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="136dp"
-            android:layout_marginEnd="131dp"
-            android:layout_marginBottom="73dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginBottom="29dp"
             android:textColor="#000000"
-            app:layout_constraintBottom_toTopOf="@+id/dateofbirth"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/user"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toTopOf="@+id/location"
+            app:layout_constraintStart_toEndOf="@+id/user" />
 
         <TextView
             android:id="@+id/Loca"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="13dp"
             android:text="@string/lcation"
             android:textAllCaps="true"
             android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold|italic"
             app:layout_constraintBaseline_toBaselineOf="@+id/location"
-            app:layout_constraintEnd_toStartOf="@+id/location"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/location"
-            android:layout_width="150dp"
-            android:layout_height="20dp"
-            android:layout_marginEnd="146dp"
-            android:layout_marginBottom="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="184dp"
             android:textColor="#000000"
-            app:layout_constraintBottom_toTopOf="@+id/dateofbirth"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/Loca"
-            app:layout_constraintTop_toBottomOf="@+id/user" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/dateofbirth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="475dp"
             android:text="@string/dateofbirth"
             android:textAllCaps="true"
             android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold|italic"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/birthday"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/username" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/birthday"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/birthday"
-            android:layout_width="150dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="236dp"
-            android:layout_marginEnd="103dp"
-            android:layout_marginBottom="210dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="33dp"
             android:textColor="#050101"
-            app:layout_constraintBottom_toTopOf="@+id/gobaCK"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/dateofbirth"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/location" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
