@@ -112,17 +112,32 @@ public class HomePage extends AppCompatActivity {
         seedetails.setVisibility(View.GONE);
         gotostore.setVisibility(View.GONE);
         Intent i = getIntent();
+        seedetails seedetails = new seedetails();
         String data = i.getStringExtra("username");
-        seedetails seedetails = new seedetails ();
-        Bundle bundle = new Bundle();
+        if (data != null) {
+            Utilities u = Utilities.getInstance();
+            u.AddSeeDetailsBundlestring("username", data);
+            data = i.getStringExtra("location");
+            u.AddSeeDetailsBundlestring("location", data);
+            data = i.getStringExtra("birthday");
+            u.AddSeeDetailsBundlestring("birthday", data);
+        } else {
+            Utilities u = Utilities.getInstance();
+            data = u.getStringSeeDetailsBundle("username");
+            u.AddSeeDetailsBundlestring("username", data);
+            data = u.getStringSeeDetailsBundle("location");
+            u.AddSeeDetailsBundlestring("location", data);
+            data = u.getStringSeeDetailsBundle("birthday");
+            u.AddSeeDetailsBundlestring("birthday", data);
+        }
+        /*Bundle bundle = new Bundle();
         bundle.putString("username",data);
         data = i.getStringExtra("location");
         bundle.putString("location",data);
         data = i.getStringExtra("birthday");
         bundle.putString("birthday",data);
-        seedetails.setArguments(bundle);
+        seedetails.setArguments(bundle);*/
         getSupportFragmentManager().beginTransaction().add(R.id.framelayout, seedetails).commit();
-        
 
 
     }

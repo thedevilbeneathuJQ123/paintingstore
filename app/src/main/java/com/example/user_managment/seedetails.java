@@ -98,21 +98,37 @@ public class seedetails extends Fragment {
                 startActivity(i);
             }
         });
-        Bundle bundle = this.getArguments();
+        Utilities ut = Utilities.getInstance();
         username = getView().findViewById(R.id.username);
         birthday = getView().findViewById(R.id.birthday);
         location = getView().findViewById(R.id.location);
-        try {
-            String data = bundle.getString("username");
-            username.setText(data);
-            data = bundle.getString("location");
-            location.setText(data);
-            data = bundle.getString("birthday");
-            birthday.setText(data);
+        String data = ut.getStringSeeDetailsBundle("username");
+        username.setText(data);
+        data = ut.getStringSeeDetailsBundle("location");
+        location.setText(data);
+        data = ut.getStringSeeDetailsBundle("birthday");
+        birthday.setText(data);
+        /*
+        Bundle bundle = this.getArguments();
+        if (bundle == null)
+        {
+            // TODO: get saved details
         }
-        catch (NullPointerException e) {
-            username.setText("nullpointerexception");
-        }
+        else {
+            username = getView().findViewById(R.id.username);
+            birthday = getView().findViewById(R.id.birthday);
+            location = getView().findViewById(R.id.location);
+            try {
+                String data = bundle.getString("username");
+                username.setText(data);
+                data = bundle.getString("location");
+                location.setText(data);
+                data = bundle.getString("birthday");
+                birthday.setText(data);
+            } catch (NullPointerException e) {
+                username.setText("nullpointerexception");
+            }
+        }*/
    }
 
     public seedetails() {
