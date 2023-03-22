@@ -114,6 +114,10 @@ public class Editprofile extends Fragment {
                                 @Override
                                 public void onSuccess(Void unused) {
                                     Toast.makeText(getContext(), "successfully updated", Toast.LENGTH_SHORT).show();
+                                    Utilities u = Utilities.getInstance();
+                                    u.AddSeeDetailsBundlestring("username", name);
+                                    u.AddSeeDetailsBundlestring("location", date);
+                                    u.AddSeeDetailsBundlestring("birthday", location);
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
