@@ -1,5 +1,7 @@
 package com.example.user_managment;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,7 +9,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,8 +23,16 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 public class HomePage extends AppCompatActivity {
@@ -30,6 +42,7 @@ public class HomePage extends AppCompatActivity {
     private FirebaseFirestore db;
     TextView tx1;
     Button delete,signout,seedetails,editprof,gotostore;
+    String userid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,14 +134,38 @@ public class HomePage extends AppCompatActivity {
             u.AddSeeDetailsBundlestring("location", data);
             data = i.getStringExtra("birthday");
             u.AddSeeDetailsBundlestring("birthday", data);
-        } else {
-            Utilities u = Utilities.getInstance();
-            data = u.getStringSeeDetailsBundle("username");
-            u.AddSeeDetailsBundlestring("username", data);
-            data = u.getStringSeeDetailsBundle("location");
-            u.AddSeeDetailsBundlestring("location", data);
-            data = u.getStringSeeDetailsBundle("birthday");
-            u.AddSeeDetailsBundlestring("birthday", data);
+        }
+        else {
+            db.collection("Users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if(task.isSuccessful() && !task.getResult().isEmpty()){
+                        DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+                        String documentID= documentSnapshot.getId();
+                        DocumentReference documentReference = db.collection("Users").document(documentID);
+                        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        if(documentSnapshot.exists())
+                                        {
+                                            Utilities u = Utilities.getInstance();
+                                            u.AddSeeDetailsBundlestring("username", documentSnapshot.getString("username"));
+                                            u.AddSeeDetailsBundlestring("location", documentSnapshot.getString("birthday"));
+                                            u.AddSeeDetailsBundlestring("birthday", documentSnapshot.getString("location"));
+                                        }
+                                        else Toast.makeText(getApplicationContext(), "data not found", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getApplicationContext(), "failed to fetch data", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    }
+                }
+            });
         }
         /*Bundle bundle = new Bundle();
         bundle.putString("username",data);
@@ -138,8 +175,6 @@ public class HomePage extends AppCompatActivity {
         bundle.putString("birthday",data);
         seedetails.setArguments(bundle);*/
         getSupportFragmentManager().beginTransaction().add(R.id.framelayout, seedetails).commit();
-
-
     }
     public void Deleteuserfromfirestore(){
         db.collection("Users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

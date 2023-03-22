@@ -1,5 +1,7 @@
 package com.example.user_managment;
 
+import com.google.firebase.firestore.DocumentId;
+
 import java.util.Date;
 
 public class User
@@ -9,7 +11,7 @@ public class User
     private String Birthday;
 
     // TODO: add username, birthdate
-    public User(String name,String location,String birthday) {
+    public User(String name, String location, String birthday) {
         Username = name;
         Location = location;
         Birthday = birthday;

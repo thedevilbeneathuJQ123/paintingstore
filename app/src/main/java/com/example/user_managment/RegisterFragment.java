@@ -135,7 +135,8 @@ public class RegisterFragment extends Fragment{
            }
         });
     }
-
+    
+    
     public void Check(){
         String email = etemailRegister.getText().toString().trim();
         String password = etpasswordRegister.getText().toString().trim();
@@ -162,7 +163,9 @@ public class RegisterFragment extends Fragment{
         if(!password.equals(confirmpassword))
         {
             Toast.makeText(getContext(), "the confirmed password is not identical", Toast.LENGTH_SHORT).show();
+            return;
         }
+       
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -191,7 +194,6 @@ public class RegisterFragment extends Fragment{
                         return;
                     }
                 });
-  
     }
 
     @Override
