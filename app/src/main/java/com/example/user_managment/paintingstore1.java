@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,14 +14,36 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.GridLayout;
 import android.widget.Toolbar;
+
+import com.example.user_managment.adapter.MyPaintingAdapter;
+import com.example.user_managment.listener.ICartLoadListener;
+import com.example.user_managment.listener.IPaintingLoadListener;
+import com.example.user_managment.model.CartModel;
+import com.example.user_managment.model.PaintingModel;
+import com.example.user_managment.utils.SpaceItemDecoration;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.nex3z.notificationbadge.NotificationBadge;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link paintingstore1#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class paintingstore1 extends Fragment {
+public class paintingstore1 extends Fragment implements IPaintingLoadListener, ICartLoadListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,26 +53,17 @@ public class paintingstore1 extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private Button goback2;
-    @Override
-    public void onStart() {
-        super.onStart();
-       // Toolbar tb=getView().findViewById(R.id.toolbar);
-       // tb.setTitle("paintingstore");
-        goback2 = getView().findViewById(R.id.goback2);
-        goback2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getContext(),HomePage.class);
-                startActivity(i);
-            }
-        });
-    }
-    @Override
+   // private Button goback2;
+    
+    
+    
+
+   
+   /* @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu,menu);
         super.onCreateOptionsMenu(menu, inflater);
-    }
+    }*/
 
     public paintingstore1() {
         // Required empty public constructor
@@ -86,7 +101,87 @@ public class paintingstore1 extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_paintingstore1, container, false);
-        setHasOptionsMenu(true);
+        //setHasOptionsMenu(true);
         return v;
+    }
+    @BindView(R.id.recycler_painting)
+    RecyclerView recyclerPainting;
+    @BindView(R.id.frameLayout)
+    FrameLayout frameLayout;
+    @BindView(R.id.badge)
+    NotificationBadge badge;
+    @BindView(R.id.btnCart)
+    FrameLayout btnCart;
+
+    IPaintingLoadListener paintingLoadListener;
+    ICartLoadListener cartLoadListener;
+
+
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        init();
+        loadPaintingFromFirebase();
+    }
+
+    private void loadPaintingFromFirebase() {
+        List<PaintingModel> paintingModels = new ArrayList<>();
+        FirebaseDatabase.getInstance()
+                .getReference("Painting")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists())
+                        {
+                            for (DataSnapshot paintingSnapshot:snapshot.getChildren())
+                            {
+                                PaintingModel paintingModel = paintingSnapshot.getValue(PaintingModel.class);
+                                paintingModel.setKey(paintingSnapshot.getKey());
+                                paintingModels.add(paintingModel);
+                            }
+                            paintingLoadListener.onPaintingLoadSuccess(paintingModels);
+                        }
+                        else
+                            paintingLoadListener.onPaintingLoadFailed("Can't find painting");
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        paintingLoadListener.onPaintingLoadFailed(error.getMessage());
+                    }
+                });
+    }
+    private void init() {
+        ButterKnife.bind(getActivity());
+        paintingLoadListener = this;
+        cartLoadListener = this;
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2);
+        recyclerPainting.setLayoutManager(gridLayoutManager);
+        recyclerPainting.addItemDecoration(new SpaceItemDecoration());
+    }
+
+    @Override
+    public void onPaintingLoadSuccess(List<PaintingModel> paintingModelList) {
+        MyPaintingAdapter adapter = new MyPaintingAdapter(getContext(),paintingModelList);
+        recyclerPainting.setAdapter(adapter);
+    }
+
+    @Override
+    public void onPaintingLoadFailed(String message) {
+        Snackbar.make(frameLayout,message,Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onCartLoadSuccess(List<CartModel> cartModelList) {
+        
+    }
+
+    @Override
+    public void onCartLoadFailed(String message) {
+
     }
 }
