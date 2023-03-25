@@ -175,13 +175,16 @@ public class paintingstore1 extends Fragment implements IPaintingLoadListener, I
                 });
     }
     private void init() {
-        ButterKnife.bind(getActivity());
+        //ButterKnife.bind(getActivity());
+        ButterKnife.bind(this,getView());
         paintingLoadListener = this;
         cartLoadListener = this;
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2);
         recyclerPainting.setLayoutManager(gridLayoutManager);
         recyclerPainting.addItemDecoration(new SpaceItemDecoration());
+        
+        btnCart.setOnClickListener(view -> startActivity(new Intent(getActivity(),CartActivity.class)));
     }
 
     @Override

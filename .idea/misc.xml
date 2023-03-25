@@ -8,6 +8,7 @@
         <entry key="..\:/Users/RobotiC/Downloads/User_Managment (1)/loginandsignup-master/app/src/main/res/drawable/ic_baseline_navigate_before_24.xml" value="0.3295" />
         <entry key="..\:/Users/RobotiC/Downloads/User_Managment (1)/loginandsignup-master/app/src/main/res/drawable/ic_baseline_shopping_cart_24.xml" value="0.326" />
         <entry key="..\:/Users/RobotiC/Downloads/User_Managment (1)/loginandsignup-master/app/src/main/res/drawable/ic_launcher_background.xml" value="0.326" />
+        <entry key="..\:/Users/RobotiC/Downloads/User_Managment (1)/loginandsignup-master/app/src/main/res/layout/activity_cart.xml" value="0.3625" />
         <entry key="..\:/Users/RobotiC/Downloads/User_Managment (1)/loginandsignup-master/app/src/main/res/layout/activity_home_page.xml" value="0.33" />
         <entry key="..\:/Users/RobotiC/Downloads/User_Managment (1)/loginandsignup-master/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
         <entry key="..\:/Users/RobotiC/Downloads/User_Managment (1)/loginandsignup-master/app/src/main/res/layout/fragment_editprofile.xml" value="0.358695652173913" />
@@ -16,6 +17,7 @@
         <entry key="..\:/Users/RobotiC/Downloads/User_Managment (1)/loginandsignup-master/app/src/main/res/layout/fragment_paintingstore1.xml" value="0.3625" />
         <entry key="..\:/Users/RobotiC/Downloads/User_Managment (1)/loginandsignup-master/app/src/main/res/layout/fragment_register.xml" value="0.358695652173913" />
         <entry key="..\:/Users/RobotiC/Downloads/User_Managment (1)/loginandsignup-master/app/src/main/res/layout/fragment_seedetails.xml" value="0.3625" />
+        <entry key="..\:/Users/RobotiC/Downloads/User_Managment (1)/loginandsignup-master/app/src/main/res/layout/layout_cart_item.xml" value="0.33" />
         <entry key="..\:/Users/RobotiC/Downloads/User_Managment (1)/loginandsignup-master/app/src/main/res/layout/layout_painting_item.xml" value="0.29743589743589743" />
         <entry key="..\:/Users/RobotiC/Downloads/User_Managment (1)/loginandsignup-master/app/src/main/res/menu/menu.xml" value="0.33" />
       </map>
