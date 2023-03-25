@@ -19,6 +19,7 @@ import android.widget.GridLayout;
 import android.widget.Toolbar;
 
 import com.example.user_managment.adapter.MyPaintingAdapter;
+import com.example.user_managment.eventbus.MyUpdateCartEvent;
 import com.example.user_managment.listener.ICartLoadListener;
 import com.example.user_managment.listener.IPaintingLoadListener;
 import com.example.user_managment.model.CartModel;
@@ -30,7 +31,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SnapshotMetadata;
 import com.nex3z.notificationbadge.NotificationBadge;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,6 +108,9 @@ public class paintingstore1 extends Fragment implements IPaintingLoadListener, I
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_paintingstore1, container, false);
         //setHasOptionsMenu(true);
+        init();
+        loadPaintingFromFirebase();
+        countCartItem();
         return v;
     }
     @BindView(R.id.recycler_painting)
@@ -115,16 +124,27 @@ public class paintingstore1 extends Fragment implements IPaintingLoadListener, I
 
     IPaintingLoadListener paintingLoadListener;
     ICartLoadListener cartLoadListener;
-
-
+    
 
 
     @Override
     public void onStart() {
         super.onStart();
+        EventBus.getDefault().register(this);
+    }
 
-        init();
-        loadPaintingFromFirebase();
+    @Override
+    public void onStop() {
+        if (EventBus.getDefault().hasSubscriberForEvent(MyUpdateCartEvent.class))
+            EventBus.getDefault().removeStickyEvent(MyUpdateCartEvent.class);
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+    
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void onUpdatecart(MyUpdateCartEvent event)
+    {
+        countCartItem();
     }
 
     private void loadPaintingFromFirebase() {
@@ -166,7 +186,7 @@ public class paintingstore1 extends Fragment implements IPaintingLoadListener, I
 
     @Override
     public void onPaintingLoadSuccess(List<PaintingModel> paintingModelList) {
-        MyPaintingAdapter adapter = new MyPaintingAdapter(getContext(),paintingModelList);
+        MyPaintingAdapter adapter = new MyPaintingAdapter(getContext(),paintingModelList,cartLoadListener);
         recyclerPainting.setAdapter(adapter);
     }
 
@@ -178,10 +198,45 @@ public class paintingstore1 extends Fragment implements IPaintingLoadListener, I
     @Override
     public void onCartLoadSuccess(List<CartModel> cartModelList) {
         
+        int cartsum = 0;
+        for (CartModel cartModel: cartModelList)
+            cartsum += cartModel.getQuantity();
+            badge.setNumber(cartsum);
     }
 
     @Override
     public void onCartLoadFailed(String message) {
+        
+        Snackbar.make(frameLayout,message,Snackbar.LENGTH_LONG).show();
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        countCartItem();
+    }
+
+    private void countCartItem() {
+        List<CartModel> cartModels = new ArrayList<>();
+        FirebaseDatabase
+                .getInstance().getReference("Cart")
+                .child("UNIQUE_USER_ID")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot cartSnapshot: snapshot.getChildren())
+                        {
+                            CartModel cartModel = cartSnapshot.getValue(CartModel.class);
+                            cartModel.setKey(cartSnapshot.getKey());
+                            cartModels.add(cartModel);
+                        }
+                        cartLoadListener.onCartLoadSuccess(cartModels);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        cartLoadListener.onCartLoadFailed(error.getMessage());
+                    }
+                });
     }
 }
