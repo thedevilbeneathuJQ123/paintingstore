@@ -23,6 +23,8 @@ import com.example.user_managment.model.CartModel;
 import com.example.user_managment.model.PaintingModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,6 +47,7 @@ public class MyPaintingAdapter extends RecyclerView.Adapter<MyPaintingAdapter.My
     private Context context;
     private List<PaintingModel> paintingModelList;
     private ICartLoadListener iCartLoadListener;
+    FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
 
     public MyPaintingAdapter(Context context, List<PaintingModel> paintingModelList, ICartLoadListener iCartLoadListener) {
         this.context = context;
@@ -76,7 +79,7 @@ public class MyPaintingAdapter extends RecyclerView.Adapter<MyPaintingAdapter.My
         DatabaseReference userCart = FirebaseDatabase
                 .getInstance()
                 .getReference("Cart")
-                .child("UNIQUE_USER_ID");
+                .child(currentFirebaseUser.getUid());
         userCart.child(paintingModel.getKey())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
