@@ -108,7 +108,7 @@ public class paintingstore1 extends Fragment implements IPaintingLoadListener, I
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_paintingstore1, container, false);
         //setHasOptionsMenu(true);
-        init();
+        init(v);
         loadPaintingFromFirebase();
         countCartItem();
         return v;
@@ -174,9 +174,9 @@ public class paintingstore1 extends Fragment implements IPaintingLoadListener, I
                     }
                 });
     }
-    private void init() {
+    private void init(View v) {
         //ButterKnife.bind(getActivity());
-        ButterKnife.bind(this,getView());
+        ButterKnife.bind(this,v);
         paintingLoadListener = this;
         cartLoadListener = this;
 

@@ -6,6 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".paintingstore1">
+    <RelativeLayout
+        android:id="@+id/Mainlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".paintingstore1">
 
     <LinearLayout
         android:background="#E7E7E7"
@@ -58,12 +63,14 @@
         
         
     </LinearLayout>
-    
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_painting"
-        android:padding="8dp"
-        android:layout_below="@+id/panel"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_painting"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/panel"
+            android:padding="8dp" />
+
+    </RelativeLayout>
 </FrameLayout>
     
