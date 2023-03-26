@@ -49,13 +49,19 @@ public class CartActivity extends AppCompatActivity implements ICartLoadListener
     ICartLoadListener cartLoadListener;
 
     @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
     public void onStop() {
         if (EventBus.getDefault().hasSubscriberForEvent(MyUpdateCartEvent.class))
             EventBus.getDefault().removeStickyEvent(MyUpdateCartEvent.class);
         EventBus.getDefault().unregister(this);
         super.onStop();
     }
-
+    //updatecart
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
     public void onUpdatecart(MyUpdateCartEvent event)
     {
