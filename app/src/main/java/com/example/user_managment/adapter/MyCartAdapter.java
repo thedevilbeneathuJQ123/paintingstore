@@ -16,6 +16,8 @@ import com.bumptech.glide.Glide;
 import com.example.user_managment.R;
 import com.example.user_managment.eventbus.MyUpdateCartEvent;
 import com.example.user_managment.model.CartModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.checkerframework.checker.units.qual.C;
@@ -30,7 +32,8 @@ import butterknife.Unbinder;
 public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.MyCartViewHolder> {
     private Context context;
     private List<CartModel> cartModelList;
-
+    FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    
     public MyCartAdapter(Context context, List<CartModel> cartModelList) {
         this.context = context;
         this.cartModelList = cartModelList;
@@ -79,7 +82,7 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.MyCartView
     private void deleteFromFirebase(CartModel cartModel) {
         FirebaseDatabase.getInstance()
                 .getReference("Cart")
-                .child("UNIQUE_USER_ID")
+                .child(currentFirebaseUser.getUid())
                 .child(cartModel.getKey())
                 .removeValue()
                 .addOnSuccessListener(aVoid-> EventBus.getDefault().postSticky(new MyUpdateCartEvent()));
@@ -108,7 +111,7 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.MyCartView
     private void updateFirebase(CartModel cartModel) {
         FirebaseDatabase.getInstance()
                 .getReference("Cart")
-                .child("UNIQUE_USER_ID")
+                .child(currentFirebaseUser.getUid())
                 .child(cartModel.getKey())
                 .setValue(cartModel)
                 .addOnSuccessListener(aVoid-> EventBus.getDefault().postSticky(new MyUpdateCartEvent()));

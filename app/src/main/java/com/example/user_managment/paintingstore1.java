@@ -27,6 +27,8 @@ import com.example.user_managment.model.CartModel;
 import com.example.user_managment.model.PaintingModel;
 import com.example.user_managment.utils.SpaceItemDecoration;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -118,6 +120,7 @@ public class paintingstore1 extends Fragment implements IPaintingLoadListener, I
     FrameLayout btnCart;
     @BindView(R.id.btnBack)
     ImageView btnBack;
+    FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
 
     IPaintingLoadListener paintingLoadListener;
     ICartLoadListener cartLoadListener;
@@ -137,7 +140,6 @@ public class paintingstore1 extends Fragment implements IPaintingLoadListener, I
         EventBus.getDefault().unregister(this);
         super.onStop();
     }
-    //updatecart
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
     public void onUpdatecart(MyUpdateCartEvent event)
     {
@@ -172,7 +174,6 @@ public class paintingstore1 extends Fragment implements IPaintingLoadListener, I
                 });
     }
     private void init(View v) {
-        //ButterKnife.bind(getActivity());
         ButterKnife.bind(this,v);
         paintingLoadListener = this;
         cartLoadListener = this;
@@ -221,7 +222,7 @@ public class paintingstore1 extends Fragment implements IPaintingLoadListener, I
         List<CartModel> cartModels = new ArrayList<>();
         FirebaseDatabase
                 .getInstance().getReference("Cart")
-                .child("UNIQUE_USER_ID")
+                .child(currentFirebaseUser.getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
