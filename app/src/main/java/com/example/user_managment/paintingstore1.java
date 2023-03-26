@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.Toolbar;
 
 import com.example.user_managment.adapter.MyPaintingAdapter;
@@ -121,6 +122,8 @@ public class paintingstore1 extends Fragment implements IPaintingLoadListener, I
     NotificationBadge badge;
     @BindView(R.id.btnCart)
     FrameLayout btnCart;
+    @BindView(R.id.btnBack)
+    ImageView btnBack;
 
     IPaintingLoadListener paintingLoadListener;
     ICartLoadListener cartLoadListener;
@@ -140,7 +143,7 @@ public class paintingstore1 extends Fragment implements IPaintingLoadListener, I
         EventBus.getDefault().unregister(this);
         super.onStop();
     }
-    
+    //updatecart
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
     public void onUpdatecart(MyUpdateCartEvent event)
     {
@@ -185,6 +188,7 @@ public class paintingstore1 extends Fragment implements IPaintingLoadListener, I
         recyclerPainting.addItemDecoration(new SpaceItemDecoration());
         
         btnCart.setOnClickListener(view -> startActivity(new Intent(getActivity(),CartActivity.class)));
+        btnBack.setOnClickListener(view -> startActivity(new Intent(getActivity(),HomePage.class)));
     }
 
     @Override
