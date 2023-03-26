@@ -5,6 +5,7 @@
     android:id="@+id/FRAMELAYOUT"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/green"
     tools:context=".seedetails">
 
     <androidx.constraintlayout.widget.ConstraintLayout

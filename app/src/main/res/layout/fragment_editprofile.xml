@@ -5,6 +5,7 @@
     android:id="@+id/FRamelayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/pink_orange"
     tools:context=".Editprofile">
 
     <androidx.constraintlayout.widget.ConstraintLayout

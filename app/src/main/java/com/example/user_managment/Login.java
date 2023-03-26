@@ -80,7 +80,6 @@ public class Login extends Fragment {
     public void logIn(View view) {
         String email=etemail.getText().toString().trim();
         String password=etpassword.getText().toString().trim();
-        Intent i = new Intent(getContext(),HomePage.class);
         if (password.isEmpty()||email.isEmpty()){
             Toast.makeText(getContext(), "Fields are empty!", Toast.LENGTH_SHORT).show();
             return;
@@ -90,7 +89,9 @@ public class Login extends Fragment {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
                     Toast.makeText(getContext(), "Logged in successfully (Y)", Toast.LENGTH_SHORT).show();
-                    startActivity(i);
+                    FragmentTransaction ft =getActivity().getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.frameLayout, new paintingstore1());
+                    ft.commit();
                 }else {
                     Toast.makeText(getContext(), "log in failed", Toast.LENGTH_SHORT).show();
                 }
