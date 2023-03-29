@@ -180,6 +180,7 @@ public class paintingstore1 extends Fragment implements IPaintingLoadListener, I
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2);
         recyclerPainting.setLayoutManager(gridLayoutManager);
+     // this is how you make the paintings in a stair view / if you want to make the paintings at the same height u should delete this line or // it.
         recyclerPainting.addItemDecoration(new SpaceItemDecoration());
         
         btnCart.setOnClickListener(view -> startActivity(new Intent(getActivity(),CartActivity.class)));
