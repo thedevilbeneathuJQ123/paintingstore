@@ -24,6 +24,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
@@ -83,7 +85,6 @@ public class RegisterFragment extends Fragment{
         super.onStart();
         connectComponents();
         mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
         btnGoToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,56 +97,17 @@ public class RegisterFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 Check();
-                
-             /*  User user = new User(etusername.getText().toString().trim(),etlocation.getText().toString().trim(),etdate.getText().toString().trim());
-               fstore.collection("Users").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Toast.makeText(getContext(), "User has been added", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getContext(), "User failed to get added", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                        });*/
-            /*    Map<String, Object> user = new HashMap<>();
-                user.put("name",etusername.getText().toString().trim());
-                user.put("location",etlocation.getText().toString().trim() );
-                user.put("birthday",etdate.getText().toString().trim() );
-
-                fstore.collection("Users").add(user)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Error adding document", e);
-                            }
-                        });*/
-
-
            }
         });
     }
     
-    
-    public void Check(){
+
+
+        public void Check(){
         String email = etemailRegister.getText().toString().trim();
         String password = etpasswordRegister.getText().toString().trim();
         String confirmpassword = etconfirmpasswordRegister.getText().toString().trim();
-        String username = etusername.getText().toString().trim();
-        String location = etlocation.getText().toString().trim();
-        String date = etdate.getText().toString().trim();
-        Intent i = new Intent(getContext(),HomePage.class);
-        if( email.trim().isEmpty() || password.trim().isEmpty() || confirmpassword.trim().isEmpty() || username.trim().isEmpty() || location.trim().isEmpty() || date.trim().isEmpty())
+        if( email.trim().isEmpty() || password.trim().isEmpty() || confirmpassword.trim().isEmpty())
         {
             Toast.makeText(getContext(), "some feilds are missing!", Toast.LENGTH_SHORT).show();
             return;
@@ -170,30 +132,15 @@ public class RegisterFragment extends Fragment{
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
+                    FragmentTransaction ft =getActivity().getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.frameLayout, new profile());
+                    ft.commit();
                     Toast.makeText(getContext(), "succeded to create an account", Toast.LENGTH_SHORT).show();
-                    i.putExtra("username",etusername.getText().toString().trim());
-                    i.putExtra("location",etlocation.getText().toString().trim());
-                    i.putExtra("birthday",etdate.getText().toString().trim());
-                    startActivity(i);
                 }else{
                     Toast.makeText(getContext(), "failed to create account!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        User user = new User(etusername.getText().toString().trim(),etlocation.getText().toString().trim(),etdate.getText().toString().trim());
-        fstore.collection("Users").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(getContext(), "User has been added", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), "User failed to get added", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                });
     }
 
     @Override
@@ -201,36 +148,6 @@ public class RegisterFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_register, container, false);
-     /*   btnRegister = v.findViewById(R.id.btnRegister);
-        etdate = v.findViewById(R.id.ETdate);
-        etusername = v.findViewById(R.id.etusername);
-        etlocation = v.findViewById(R.id.etlocation);
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                seedetails seedetails = new seedetails ();
-                Bundle bundle = new Bundle();
-                bundle.putString("username",etusername.getText().toString().trim());
-                bundle.putString("location",etlocation.getText().toString().trim());
-                bundle.putString("birthday",etdate.getText().toString().trim());
-                seedetails.setArguments(bundle);
-                //getFragmentManager().beginTransaction().add(R.id.frameLayout, seedetails).commit();
-                Check();*/
-
-//Inflate the fragment
-               
-             /*   Bundle bundle = new Bundle();
-                bundle.putString("username",etusername.getText().toString().trim());
-                bundle.putString("location",etlocation.getText().toString().trim());
-                bundle.putString("birthday",etdate.getText().toString().trim());*/
-               /* seedetails seedetails = new seedetails();
-                seedetails.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.framelayout,seedetails).commit();
-                FragmentTransaction ft =getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.frameLayout, new seedetails());
-                ft.commit();*/
-        /*    }
-        });*/
         return v;
     }
 
@@ -248,6 +165,7 @@ public class RegisterFragment extends Fragment{
 
     private FirebaseFirestore fstore = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
     private FirebaseUser mUser;
     private Button btnRegister,btnGoToLogin;
     private EditText etemailRegister,etpasswordRegister,etconfirmpasswordRegister,etdate,etusername,etlocation;
@@ -259,9 +177,6 @@ public class RegisterFragment extends Fragment{
         etconfirmpasswordRegister = getView().findViewById(R.id.etPasswordConfirm);
         btnRegister = getView().findViewById(R.id.btnRegister);
         btnGoToLogin = getView().findViewById(R.id.btnBackToLogin);
-        etdate = getView().findViewById(R.id.ETdate);
-        etusername = getView().findViewById(R.id.etusername);
-        etlocation = getView().findViewById(R.id.etlocation);
     }
 
 }

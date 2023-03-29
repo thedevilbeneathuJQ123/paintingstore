@@ -23,6 +23,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
@@ -40,15 +45,16 @@ public class HomePage extends AppCompatActivity {
     private FirebaseAuth auth;
     private FirebaseUser user;
     private FirebaseFirestore db;
+    private DatabaseReference databaseReference;
     TextView tx1;
     Button delete,signout,seedetails,editprof,gotostore;
-    String userid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
         auth=FirebaseAuth.getInstance();
         db=FirebaseFirestore.getInstance();
+        databaseReference= FirebaseDatabase.getInstance().getReference("Users");
         user= auth.getCurrentUser();
         delete=findViewById(R.id.Delete);
         tx1=findViewById(R.id.textView);
@@ -56,6 +62,10 @@ public class HomePage extends AppCompatActivity {
         signout=findViewById(R.id.signout);
         editprof=findViewById(R.id.Edit);
         gotostore=findViewById(R.id.paintingstore);
+        if (user.getUid()!=null)
+        {
+            getUserdata();
+        }
     }
 
     public void signout(View view) {
@@ -76,7 +86,7 @@ public class HomePage extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void unused) {
                         Toast.makeText(HomePage.this, "profile deleted", Toast.LENGTH_SHORT).show();
-                        Deleteuserfromfirestore();
+                        DeleteuserfromRealtimedatabase();
                         Intent i=new Intent(HomePage.this,MainActivity.class);
                         startActivity(i);
                     }
@@ -124,69 +134,41 @@ public class HomePage extends AppCompatActivity {
         signout.setVisibility(View.GONE);
         seedetails.setVisibility(View.GONE);
         gotostore.setVisibility(View.GONE);
-        Intent i = getIntent();
         seedetails seedetails = new seedetails();
-        String data = i.getStringExtra("username");
-        if (data != null) {
-            Utilities u = Utilities.getInstance();
-            u.AddSeeDetailsBundlestring("username", data);
-            data = i.getStringExtra("location");
-            u.AddSeeDetailsBundlestring("location", data);
-            data = i.getStringExtra("birthday");
-            u.AddSeeDetailsBundlestring("birthday", data);
-        }
-        else {
-            db.collection("Users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if(task.isSuccessful() && !task.getResult().isEmpty()){
-                        DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
-                        String documentID= documentSnapshot.getId();
-                        DocumentReference documentReference = db.collection("Users").document(documentID);
-                        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                        if(documentSnapshot.exists())
-                                        {
-                                            Utilities u = Utilities.getInstance();
-                                            u.AddSeeDetailsBundlestring("username", documentSnapshot.getString("username"));
-                                            u.AddSeeDetailsBundlestring("location", documentSnapshot.getString("birthday"));
-                                            u.AddSeeDetailsBundlestring("birthday", documentSnapshot.getString("location"));
-                                        }
-                                        else Toast.makeText(getApplicationContext(), "data not found", Toast.LENGTH_SHORT).show();
-
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(getApplicationContext(), "failed to fetch data", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                    }
-                }
-            });
-        }
-        /*Bundle bundle = new Bundle();
-        bundle.putString("username",data);
-        data = i.getStringExtra("location");
-        bundle.putString("location",data);
-        data = i.getStringExtra("birthday");
-        bundle.putString("birthday",data);
-        seedetails.setArguments(bundle);*/
         getSupportFragmentManager().beginTransaction().add(R.id.framelayout, seedetails).commit();
     }
-    public void Deleteuserfromfirestore(){
-        db.collection("Users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+    private void getUserdata() {
+        databaseReference.child(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful() && !task.getResult().isEmpty()) {
-                    DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
-                    String documentID = documentSnapshot.getId();
-                    db.collection("Users").document(documentID).delete();
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful())
+                {
+                  if (task.getResult().exists()){
+                    //  Toast.makeText(HomePage.this, "Successfully read", Toast.LENGTH_SHORT).show();
+                      DataSnapshot dataSnapshot = task.getResult();
+                      Utilities u = Utilities.getInstance();
+                      u.AddSeeDetailsBundlestring("username", String.valueOf(dataSnapshot.child("username").getValue()));
+                      u.AddSeeDetailsBundlestring("location", String.valueOf(dataSnapshot.child("location").getValue()));
+                      u.AddSeeDetailsBundlestring("birthday", String.valueOf(dataSnapshot.child("birthday").getValue()));
+                      
+                  }else {
+                     // Toast.makeText(HomePage.this, "User does not exist", Toast.LENGTH_SHORT).show();
+                  }
+                }
+                else {
+                    //Toast.makeText(HomePage.this, "failed to get data", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+        
+    }
+
+    public void DeleteuserfromRealtimedatabase(){
+        if (user.getUid()!=null)
+        {
+            databaseReference.child(user.getUid()).removeValue();
+        }
     }
 
     public void gotostore(View view) {

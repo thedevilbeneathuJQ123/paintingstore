@@ -21,6 +21,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -90,10 +93,6 @@ public class Editprofile extends Fragment {
     }
 
     private void Updatedata(String name,String date, String location){
-        Map<String,Object> user = new HashMap<>();
-        user.put("name",name);
-        user.put("date",date);
-        user.put("location",location);
 
         if( name.trim().isEmpty() || date.trim().isEmpty() || location.trim().isEmpty())
         {
@@ -101,35 +100,13 @@ public class Editprofile extends Fragment {
             return;
         }
         
-        db.collection("Users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful() && !task.getResult().isEmpty()){
-                    DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
-                    String documentID= documentSnapshot.getId();
-                   db.collection("Users").document(documentID).update("name:",FieldValue.delete());
-                   db.collection("Users").document(documentID).update("location:",FieldValue.delete());
-                   db.collection("Users").document(documentID).update("date:",FieldValue.delete());
-                            db.collection("Users").document(documentID).update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    Toast.makeText(getContext(), "successfully updated", Toast.LENGTH_SHORT).show();
-                                    Utilities u = Utilities.getInstance();
-                                    u.AddSeeDetailsBundlestring("username", name);
-                                    u.AddSeeDetailsBundlestring("location", date);
-                                    u.AddSeeDetailsBundlestring("birthday", location);
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getContext(), "some error occurred", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                }else{
-                    Toast.makeText(getContext(), "failed to update", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        mDatabase.child(mUser.getUid()).child("username").setValue(name);
+        mDatabase.child(mUser.getUid()).child("birthday").setValue(date);
+        mDatabase.child(mUser.getUid()).child("location").setValue(location);
+        Utilities u = Utilities.getInstance();
+        u.AddSeeDetailsBundlestring("username", name);
+        u.AddSeeDetailsBundlestring("location", date);
+        u.AddSeeDetailsBundlestring("birthday", location);
     }
 
     @Override
@@ -145,13 +122,17 @@ public class Editprofile extends Fragment {
         newdate = getView().findViewById(R.id.dateofbirth2);
         newlocation = getView().findViewById(R.id.location2);
         updatebtn = getView().findViewById(R.id.updatebtn);
-        db   = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference("Users");
+        mUser = mAuth.getCurrentUser();
         goback = getView().findViewById(R.id.goback);
     }
 
     Button updatebtn,goback;
     EditText newname,newdate,newlocation;
-    FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+    private FirebaseUser mUser;    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
