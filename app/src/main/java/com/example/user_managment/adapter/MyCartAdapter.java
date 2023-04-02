@@ -64,7 +64,7 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.MyCartView
         });
         holder.btnDelete.setOnClickListener(view -> {
             AlertDialog dialog = new AlertDialog.Builder(context)
-                    .setTitle("Delte item?")
+                    .setTitle("Delete item?")
                     .setMessage("Do you really want to delete item?")
                     .setNegativeButton("CANCEL", (dialogInterface, which) -> dialogInterface.dismiss())
                     .setPositiveButton("ok", (dialogInterface2, which) -> {
