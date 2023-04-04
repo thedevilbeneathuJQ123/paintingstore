@@ -159,7 +159,14 @@ public class CartActivity extends AppCompatActivity implements ICartLoadListener
         recyclerCart.setLayoutManager(layoutManager);
         recyclerCart.addItemDecoration(new DividerItemDecoration(this,layoutManager.getOrientation()));
         
-        btnBack.setOnClickListener(view -> finish());
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction ft =getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.Mainlayout, new paintingstore1());
+                ft.commit();
+            }
+        });
     }
 
     @Override
