@@ -136,6 +136,8 @@ public class RegisterFragment extends Fragment{
                     ft.replace(R.id.frameLayout, new profile());
                     ft.commit();
                     Toast.makeText(getContext(), "succeded to create an account", Toast.LENGTH_SHORT).show();
+                    Utilities u = Utilities.getInstance();
+                    u.AddSeeDetailsBundlestring("email", email);
                 }else{
                     Toast.makeText(getContext(), "failed to create account!", Toast.LENGTH_SHORT).show();
                 }

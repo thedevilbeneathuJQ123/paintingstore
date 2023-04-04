@@ -89,6 +89,8 @@ public class Login extends Fragment {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
                     Toast.makeText(getContext(), "Logged in successfully (Y)", Toast.LENGTH_SHORT).show();
+                    Utilities u = Utilities.getInstance();
+                    u.AddSeeDetailsBundlestring("email", email);
                     FragmentTransaction ft =getActivity().getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.frameLayout, new paintingstore1());
                     ft.commit();

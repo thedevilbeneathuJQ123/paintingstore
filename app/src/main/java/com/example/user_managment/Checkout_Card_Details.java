@@ -79,6 +79,7 @@ public class Checkout_Card_Details extends Fragment {
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialogInterface.dismiss();
                             Toast.makeText(getContext(), "Thank you for purchase", Toast.LENGTH_LONG).show();
+                            sendemail();
                             deleteFromFirebase();
                             FragmentTransaction ft =getActivity().getSupportFragmentManager().beginTransaction();
                             ft.replace(R.id.framelayout2, new paintingstore1());
@@ -100,7 +101,15 @@ public class Checkout_Card_Details extends Fragment {
         });
         backtocart.setOnClickListener(view -> startActivity(new Intent(getActivity(),CartActivity.class)));
 
+    }
 
+    private void sendemail() {
+        Utilities ut = Utilities.getInstance();
+        String data = ut.getStringSeeDetailsBundle("email");
+        String recipientList = data;
+        String subject = "Paintings purchase";
+        String message = "Thank you for purchase";
+        
     }
 
     private void deleteFromFirebase() {
