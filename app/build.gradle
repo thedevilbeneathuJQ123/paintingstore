@@ -55,4 +55,6 @@ dependencies {
     implementation 'com.nex3z:notification-badge:1.0.4'
     // eventbus
     implementation 'org.greenrobot:eventbus:3.2.0'
+    // library from github by brian tree for credit card.
+    implementation 'com.braintreepayments:card-form:5.4.0'
 }

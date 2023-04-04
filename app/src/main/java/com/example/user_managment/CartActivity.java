@@ -2,11 +2,13 @@ package com.example.user_managment;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -47,9 +49,11 @@ public class CartActivity extends AppCompatActivity implements ICartLoadListener
     ImageView btnBack;
     @BindView(R.id.txtTotal)
     TextView txtTotal;
+    Button checkout;
     FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
     ICartLoadListener cartLoadListener;
+
 
     @Override
     public void onStart() {
@@ -78,6 +82,45 @@ public class CartActivity extends AppCompatActivity implements ICartLoadListener
         
         Init();
         loadCartFromFirebase();
+        checkout = findViewById(R.id.checkout);
+        checkout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                List<CartModel> cartModels = new ArrayList<>();
+                FirebaseDatabase.getInstance()
+                        .getReference("Cart")
+                        .child(currentFirebaseUser.getUid())
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.exists()){
+                                    for (DataSnapshot cartsnapshot:snapshot.getChildren())
+                                    {
+                                        CartModel cartModel = cartsnapshot.getValue(CartModel.class);
+                                        cartModel.setKey(cartsnapshot.getKey());
+                                        cartModels.add(cartModel);
+                                        recyclerCart.setVisibility(View.GONE);
+                                        btnBack.setVisibility(View.GONE);
+                                        txtTotal.setVisibility(View.GONE);
+                                        checkout.setVisibility(View.GONE);
+                                        FragmentTransaction ft =getSupportFragmentManager().beginTransaction();
+                                        ft.replace(R.id.Mainlayout, new Checkout_Card_Details());
+                                        ft.commit();
+                                       
+                                    }
+                                    cartLoadListener.onCartLoadSuccess(cartModels);
+                                }
+                                else
+                                    cartLoadListener.onCartLoadFailed("cart empty");
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                cartLoadListener.onCartLoadFailed(error.getMessage());
+                            }
+                        });
+            }
+        });
     }
 
     private void loadCartFromFirebase() {

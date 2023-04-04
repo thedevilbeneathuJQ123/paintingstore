@@ -202,8 +202,8 @@ public class paintingstore1 extends Fragment implements IPaintingLoadListener, I
     public void onCartLoadSuccess(List<CartModel> cartModelList) {
         
         int cartsum = 0;
-        for (CartModel cartModel: cartModelList)
-            cartsum += cartModel.getQuantity();
+        for (CartModel cartModel: cartModelList){
+            cartsum += cartModel.getQuantity();}
             badge.setNumber(cartsum);
     }
 
