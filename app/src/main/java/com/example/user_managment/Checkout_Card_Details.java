@@ -116,37 +116,6 @@ public class Checkout_Card_Details extends Fragment {
     }
 
     private void sendemail() {
-      /*  final String username = "tsnemailsndr@gmail.com";
-        final String password = "Vx~4]4p6s#>z-~UT";
-        Utilities ut = Utilities.getInstance();
-        String data = ut.getStringSeeDetailsBundle("email");
-        String messageTosend = "Thank you for purchase";
-        Properties props = new Properties();
-        props.put("mail.smpt.auth","true");
-        props.put("mail.smpt.starttls.enable","true");
-        props.put("mail.smpt.host","stmp.gmail.com");
-        props.put("mail.smpt.port","465");
-        Session session = Session.getInstance(props,
-                new javax.mail.Authenticator(){
-                    @Override
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username,password);
-                    }
-                });
-        try {
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(username));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(data));
-            message.setSubject("Paintings purchase");
-            message.setText(messageTosend);
-            Transport.send(message);
-            Toast.makeText(getContext(), "email sent successfully", Toast.LENGTH_SHORT).show();
-        }catch (MessagingException e){
-            e.printStackTrace();
-        }
-        // this is to prepare the program of any issues
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);*/
         try {
             Utilities ut = Utilities.getInstance();
             String data = ut.getStringSeeDetailsBundle("email");

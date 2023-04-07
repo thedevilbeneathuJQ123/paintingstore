@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.user_managment.eventbus.MyUpdateCartEvent;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,6 +40,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class HomePage extends AppCompatActivity {
 
@@ -167,6 +170,11 @@ public class HomePage extends AppCompatActivity {
     public void DeleteuserfromRealtimedatabase(){
         if (user.getUid()!=null)
         {
+            FirebaseDatabase.getInstance()
+                .getReference("Cart")
+                .child(user.getUid())
+                .removeValue()
+                .addOnSuccessListener(aVoid-> EventBus.getDefault().postSticky(new MyUpdateCartEvent()));
             databaseReference.child(user.getUid()).removeValue();
         }
     }
