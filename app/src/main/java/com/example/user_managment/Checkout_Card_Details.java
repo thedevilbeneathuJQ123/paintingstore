@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.os.StrictMode;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +25,18 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.greenrobot.eventbus.EventBus;
 
-//import com.braintreepayments.cardform.view.CardForm;
+
+import java.util.Properties;
+
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -104,12 +116,83 @@ public class Checkout_Card_Details extends Fragment {
     }
 
     private void sendemail() {
+      /*  final String username = "tsnemailsndr@gmail.com";
+        final String password = "Vx~4]4p6s#>z-~UT";
         Utilities ut = Utilities.getInstance();
         String data = ut.getStringSeeDetailsBundle("email");
-        String recipientList = data;
-        String subject = "Paintings purchase";
-        String message = "Thank you for purchase";
-        
+        String messageTosend = "Thank you for purchase";
+        Properties props = new Properties();
+        props.put("mail.smpt.auth","true");
+        props.put("mail.smpt.starttls.enable","true");
+        props.put("mail.smpt.host","stmp.gmail.com");
+        props.put("mail.smpt.port","465");
+        Session session = Session.getInstance(props,
+                new javax.mail.Authenticator(){
+                    @Override
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username,password);
+                    }
+                });
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(username));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(data));
+            message.setSubject("Paintings purchase");
+            message.setText(messageTosend);
+            Transport.send(message);
+            Toast.makeText(getContext(), "email sent successfully", Toast.LENGTH_SHORT).show();
+        }catch (MessagingException e){
+            e.printStackTrace();
+        }
+        // this is to prepare the program of any issues
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);*/
+        try {
+            Utilities ut = Utilities.getInstance();
+            String data = ut.getStringSeeDetailsBundle("email");
+            String stringSenderEmail = "paintingstore456@gmail.com";
+            String stringReceiverEmail = data;
+            String stringPasswordSenderEmail = "yotemxozgkxkrrmr";
+
+            String stringHost = "smtp.gmail.com";
+
+            Properties properties = System.getProperties();
+
+            properties.put("mail.smtp.host", stringHost);
+            properties.put("mail.smtp.port", "465");
+            properties.put("mail.smtp.ssl.enable", "true");
+            properties.put("mail.smtp.auth", "true");
+
+            javax.mail.Session session = Session.getInstance(properties, new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(stringSenderEmail, stringPasswordSenderEmail);
+                }
+            });
+
+            MimeMessage mimeMessage = new MimeMessage(session);
+            mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(stringReceiverEmail));
+
+            mimeMessage.setSubject("Subject: Paintings purchase");
+            mimeMessage.setText("Thank you for purchase");
+
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Transport.send(mimeMessage);
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+
+        } catch (AddressException e) {
+            e.printStackTrace();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 
     private void deleteFromFirebase() {
