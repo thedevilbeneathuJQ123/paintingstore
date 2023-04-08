@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.user_managment.Activities.HomePage;
 import com.example.user_managment.R;
-import com.example.user_managment.Activities.Utilities;
+import com.example.user_managment.utils.Utilities;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;

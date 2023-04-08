@@ -1,4 +1,4 @@
-package com.example.user_managment.Activities;
+package com.example.user_managment.utils;
 
 import android.os.Bundle;
 

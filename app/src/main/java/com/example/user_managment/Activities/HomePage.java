@@ -18,6 +18,7 @@ import com.example.user_managment.Fragments.paintingstore;
 import com.example.user_managment.Fragments.seedetails;
 import com.example.user_managment.R;
 import com.example.user_managment.eventbus.MyUpdateCartEvent;
+import com.example.user_managment.utils.Utilities;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

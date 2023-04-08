@@ -17,7 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.braintreepayments.cardform.view.CardForm;
 import com.example.user_managment.Activities.CartActivity;
 import com.example.user_managment.R;
-import com.example.user_managment.Activities.Utilities;
+import com.example.user_managment.utils.Utilities;
 import com.example.user_managment.eventbus.MyUpdateCartEvent;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
