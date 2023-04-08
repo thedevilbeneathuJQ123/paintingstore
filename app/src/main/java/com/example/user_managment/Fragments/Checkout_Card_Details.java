@@ -1,13 +1,9 @@
-package com.example.user_managment;
+package com.example.user_managment.Fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,14 +11,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.braintreepayments.cardform.view.CardForm;
+import com.example.user_managment.Activities.CartActivity;
+import com.example.user_managment.R;
+import com.example.user_managment.Activities.Utilities;
 import com.example.user_managment.eventbus.MyUpdateCartEvent;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.greenrobot.eventbus.EventBus;
-
 
 import java.util.Properties;
 
@@ -109,7 +110,7 @@ public class Checkout_Card_Details extends Fragment {
                 }
             }
         });
-        backtocart.setOnClickListener(view -> startActivity(new Intent(getActivity(),CartActivity.class)));
+        backtocart.setOnClickListener(view -> startActivity(new Intent(getActivity(), CartActivity.class)));
 
     }
 
@@ -130,7 +131,7 @@ public class Checkout_Card_Details extends Fragment {
             properties.put("mail.smtp.ssl.enable", "true");
             properties.put("mail.smtp.auth", "true");
 
-            javax.mail.Session session = Session.getInstance(properties, new Authenticator() {
+            Session session = Session.getInstance(properties, new Authenticator() {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
                     return new PasswordAuthentication(stringSenderEmail, stringPasswordSenderEmail);

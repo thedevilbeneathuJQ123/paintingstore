@@ -1,4 +1,4 @@
-package com.example.user_managment;
+package com.example.user_managment.Activities;
 
 import com.google.firebase.firestore.DocumentId;
 

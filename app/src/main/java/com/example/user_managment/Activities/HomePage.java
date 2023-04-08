@@ -1,4 +1,4 @@
-package com.example.user_managment;
+package com.example.user_managment.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -13,6 +13,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.user_managment.Fragments.Editprofile;
+import com.example.user_managment.Fragments.paintingstore;
+import com.example.user_managment.Fragments.seedetails;
+import com.example.user_managment.R;
 import com.example.user_managment.eventbus.MyUpdateCartEvent;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;

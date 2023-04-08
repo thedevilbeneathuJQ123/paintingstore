@@ -1,4 +1,4 @@
-package com.example.user_managment;
+package com.example.user_managment.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +14,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.user_managment.Fragments.Checkout_Card_Details;
+import com.example.user_managment.Fragments.paintingstore;
+import com.example.user_managment.R;
 import com.example.user_managment.adapter.MyCartAdapter;
 import com.example.user_managment.eventbus.MyUpdateCartEvent;
 import com.example.user_managment.listener.ICartLoadListener;
