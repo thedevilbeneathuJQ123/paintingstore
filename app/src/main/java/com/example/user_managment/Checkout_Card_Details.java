@@ -8,7 +8,6 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.os.StrictMode;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,6 @@ import android.widget.Toast;
 
 import com.braintreepayments.cardform.view.CardForm;
 import com.example.user_managment.eventbus.MyUpdateCartEvent;
-import com.example.user_managment.model.CartModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
@@ -94,7 +92,7 @@ public class Checkout_Card_Details extends Fragment {
                             sendemail();
                             deleteFromFirebase();
                             FragmentTransaction ft =getActivity().getSupportFragmentManager().beginTransaction();
-                            ft.replace(R.id.framelayout2, new paintingstore1());
+                            ft.replace(R.id.framelayout2, new paintingstore());
                             ft.commit();
                         }
                     });

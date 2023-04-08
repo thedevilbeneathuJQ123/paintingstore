@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,13 +18,11 @@ import com.example.user_managment.adapter.MyCartAdapter;
 import com.example.user_managment.eventbus.MyUpdateCartEvent;
 import com.example.user_managment.listener.ICartLoadListener;
 import com.example.user_managment.model.CartModel;
-import com.example.user_managment.model.PaintingModel;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -163,7 +160,7 @@ public class CartActivity extends AppCompatActivity implements ICartLoadListener
             @Override
             public void onClick(View view) {
                 FragmentTransaction ft =getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.Mainlayout, new paintingstore1());
+                ft.replace(R.id.Mainlayout, new paintingstore());
                 ft.commit();
             }
         });

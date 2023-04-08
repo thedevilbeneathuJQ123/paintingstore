@@ -1,6 +1,5 @@
 package com.example.user_managment;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -77,7 +76,7 @@ public class profile extends Fragment {
             public void onClick(View view) {
                 AddusertoRealtimedatabase();
                 FragmentTransaction ft =getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.framelayout2, new paintingstore1());
+                ft.replace(R.id.framelayout2, new paintingstore());
                 ft.commit();
             }
         });

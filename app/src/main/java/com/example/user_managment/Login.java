@@ -1,6 +1,5 @@
 package com.example.user_managment;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -92,7 +91,7 @@ public class Login extends Fragment {
                     Utilities u = Utilities.getInstance();
                     u.AddSeeDetailsBundlestring("email", email);
                     FragmentTransaction ft =getActivity().getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.frameLayout, new paintingstore1());
+                    ft.replace(R.id.frameLayout, new paintingstore());
                     ft.commit();
                 }else {
                     Toast.makeText(getContext(), "log in failed", Toast.LENGTH_SHORT).show();

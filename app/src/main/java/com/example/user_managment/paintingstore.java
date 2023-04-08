@@ -9,15 +9,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.GridLayout;
 import android.widget.ImageView;
-import android.widget.Toolbar;
 
 import com.example.user_managment.adapter.MyPaintingAdapter;
 import com.example.user_managment.eventbus.MyUpdateCartEvent;
@@ -33,8 +28,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SnapshotMetadata;
 import com.nex3z.notificationbadge.NotificationBadge;
 
 import org.greenrobot.eventbus.EventBus;
@@ -49,10 +42,10 @@ import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link paintingstore1#newInstance} factory method to
+ * Use the {@link paintingstore#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class paintingstore1 extends Fragment implements IPaintingLoadListener, ICartLoadListener {
+public class paintingstore extends Fragment implements IPaintingLoadListener, ICartLoadListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -68,7 +61,7 @@ public class paintingstore1 extends Fragment implements IPaintingLoadListener, I
 
     
 
-    public paintingstore1() {
+    public paintingstore() {
         // Required empty public constructor
     }
 
@@ -81,8 +74,8 @@ public class paintingstore1 extends Fragment implements IPaintingLoadListener, I
      * @return A new instance of fragment paintingstore1.
      */
     // TODO: Rename and change types and number of parameters
-    public static paintingstore1 newInstance(String param1, String param2) {
-        paintingstore1 fragment = new paintingstore1();
+    public static paintingstore newInstance(String param1, String param2) {
+        paintingstore fragment = new paintingstore();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
