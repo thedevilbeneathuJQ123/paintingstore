@@ -68,11 +68,13 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.MyCartView
                     .setMessage("Do you really want to delete item?")
                     .setNegativeButton("CANCEL", (dialogInterface, which) -> dialogInterface.dismiss())
                     .setPositiveButton("ok", (dialogInterface2, which) -> {
-                        
+
+                        deleteFromFirebase(cartModelList.get(position));
+                        cartModelList.remove(position);
                         //temp remove
                         notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, cartModelList.size());
                         
-                        deleteFromFirebase(cartModelList.get(position));
                         dialogInterface2.dismiss();
                     }).create();
             dialog.show();
