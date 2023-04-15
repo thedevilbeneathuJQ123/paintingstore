@@ -140,8 +140,10 @@ public class CartActivity extends AppCompatActivity implements ICartLoadListener
                             }
                             cartLoadListener.onCartLoadSuccess(cartModels);
                         }
-                        else
+                        else {
+                            txtTotal.setText("");
                             cartLoadListener.onCartLoadFailed("cart empty");
+                        }
                     }
 
                     @Override
