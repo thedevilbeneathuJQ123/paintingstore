@@ -88,7 +88,7 @@ public class Login extends Fragment {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
-                    Toast.makeText(getContext(), "Logged in successfully (Y)", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Logged in successfully", Toast.LENGTH_SHORT).show();
                     Utilities u = Utilities.getInstance();
                     u.AddSeeDetailsBundlestring("email", email);
                     FragmentTransaction ft =getActivity().getSupportFragmentManager().beginTransaction();
