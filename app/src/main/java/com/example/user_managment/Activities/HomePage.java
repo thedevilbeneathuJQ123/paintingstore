@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user_managment.Fragments.Editprofile;
+import com.example.user_managment.Fragments.Profilepic;
 import com.example.user_managment.Fragments.paintingstore;
 import com.example.user_managment.Fragments.seedetails;
 import com.example.user_managment.R;
@@ -39,7 +40,7 @@ public class HomePage extends AppCompatActivity {
     private FirebaseFirestore db;
     private DatabaseReference databaseReference;
     TextView tx1;
-    Button delete,signout,seedetails,editprof,gotostore;
+    Button delete,signout,seedetails,editprof,gotostore,profilepic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +55,7 @@ public class HomePage extends AppCompatActivity {
         signout=findViewById(R.id.signout);
         editprof=findViewById(R.id.Edit);
         gotostore=findViewById(R.id.paintingstore);
+        profilepic = findViewById(R.id.profilepic);
         if (user.getUid()!=null)
         {
             getUserdata();
@@ -112,6 +114,7 @@ public class HomePage extends AppCompatActivity {
         signout.setVisibility(View.GONE);
         seedetails.setVisibility(View.GONE);
         gotostore.setVisibility(View.GONE);
+        profilepic.setVisibility(View.GONE);
 
 
     }
@@ -126,6 +129,7 @@ public class HomePage extends AppCompatActivity {
         signout.setVisibility(View.GONE);
         seedetails.setVisibility(View.GONE);
         gotostore.setVisibility(View.GONE);
+        profilepic.setVisibility(View.GONE);
         seedetails seedetails = new seedetails();
         getSupportFragmentManager().beginTransaction().add(R.id.framelayout, seedetails).commit();
     }
@@ -178,5 +182,19 @@ public class HomePage extends AppCompatActivity {
         signout.setVisibility(View.GONE);
         seedetails.setVisibility(View.GONE);
         gotostore.setVisibility(View.GONE);
+        profilepic.setVisibility(View.GONE);
+    }
+
+    public void Profilepic(View view) {
+        FragmentTransaction ft =getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.framelayout, new Profilepic());
+        ft.commit();
+        delete.setVisibility(View.GONE);
+        tx1.setVisibility(View.GONE);
+        editprof.setVisibility(View.GONE);
+        signout.setVisibility(View.GONE);
+        seedetails.setVisibility(View.GONE);
+        gotostore.setVisibility(View.GONE);
+        profilepic.setVisibility(View.GONE);
     }
 }
