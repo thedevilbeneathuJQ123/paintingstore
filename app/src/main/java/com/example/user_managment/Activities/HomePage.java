@@ -147,6 +147,7 @@ public class HomePage extends AppCompatActivity {
                       u.AddSeeDetailsBundlestring("username", String.valueOf(dataSnapshot.child("username").getValue()));
                       u.AddSeeDetailsBundlestring("location", String.valueOf(dataSnapshot.child("location").getValue()));
                       u.AddSeeDetailsBundlestring("birthday", String.valueOf(dataSnapshot.child("birthday").getValue()));
+                      u.AddSeeDetailsBundlestring("profilepicture", String.valueOf(dataSnapshot.child("profilepicture").getValue()));
                       
                   }else {
                      // Toast.makeText(HomePage.this, "User does not exist", Toast.LENGTH_SHORT).show();

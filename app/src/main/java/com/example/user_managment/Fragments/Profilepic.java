@@ -86,25 +86,14 @@ public class Profilepic extends Fragment {
         goback = getView().findViewById(R.id.goback2);
         save = getView().findViewById(R.id.save);
         img = getView().findViewById(R.id.profilepicture);
+        Utilities ut = Utilities.getInstance();
 
-        FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (task.isSuccessful())
-                {
-                    if (task.getResult().exists()){
-                        //  Toast.makeText(HomePage.this, "Successfully read", Toast.LENGTH_SHORT).show();
-                        DataSnapshot dataSnapshot = task.getResult();
-                        Glide.with(getContext()).load(String.valueOf(dataSnapshot.child("profilepicture").getValue())).error(R.drawable.baseline_account_circle_24);
-
-                    }
-            }
-            }
-        });
+        if(imagepath == null){
+        Glide.with(getContext()).load(ut.getStringSeeDetailsBundle("profilepicture")).error(R.drawable.baseline_account_circle_24).into(img);}
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                uploadimage();
+                if(imagepath != null)uploadimage();
             }
         });
         goback.setOnClickListener(new View.OnClickListener() {
@@ -183,8 +172,9 @@ public class Profilepic extends Fragment {
         } catch (IOException e){
             e.printStackTrace();
         }
+        Glide.with(getContext()).clear(img);
         img.setImageBitmap(bitmap);
-    }
+}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
