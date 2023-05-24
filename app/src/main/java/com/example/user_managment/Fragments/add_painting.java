@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -32,8 +33,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -82,7 +86,8 @@ public class add_painting extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-    Button goback,save;
+    ImageButton goback;
+    Button save;
     EditText price,name;
     ImageView img;
     Uri imagepath;
@@ -145,14 +150,25 @@ public class add_painting extends Fragment {
                     public void onSuccess(Uri uri) {
                         // Get a reference to the database
                         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Painting");
+                        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                long numOFelem = dataSnapshot.getChildrenCount();
+                                String key = String.valueOf(++numOFelem);
+                                Map<String, String> painting = new HashMap<>();
+                                painting.put("name", name.getText().toString().trim());
+                                painting.put("price", price.getText().toString().trim());
+                                painting.put("image", uri.toString());
+                                databaseReference.child(key).setValue(painting);
+                                progressDialog.dismiss();
+                            }
 
-                        // Use push() to create a new child in the database, then set its value to the URL
-                        String key = String.format("%02d", Integer.parseInt(databaseReference.push().getKey()));
-                        Map<String, String> painting = new HashMap<>();
-                        painting.put("name", name.getText().toString().trim());
-                        painting.put("price", price.getText().toString().trim());
-                        painting.put("image", uri.toString());
-                        databaseReference.child(key).setValue(painting);
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Toast.makeText(getContext(), "Did Not Add Painting", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                       
                     }
                 });
             }
