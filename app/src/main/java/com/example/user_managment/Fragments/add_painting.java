@@ -105,7 +105,8 @@ public class add_painting extends Fragment {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(imagepath != null)uploadimage();
+                if(imagepath != null && !price.getText().toString().trim().isEmpty() && !name.getText().toString().trim().isEmpty())uploadimage();
+                else Toast.makeText(getContext(), "some feilds are missing!", Toast.LENGTH_SHORT).show();
             }
         });
         goback.setOnClickListener(new View.OnClickListener() {
