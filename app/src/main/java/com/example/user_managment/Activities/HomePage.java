@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.user_managment.Fragments.Editprofile;
 import com.example.user_managment.Fragments.Profilepic;
+import com.example.user_managment.Fragments.add_painting;
 import com.example.user_managment.Fragments.paintingstore;
 import com.example.user_managment.Fragments.seedetails;
 import com.example.user_managment.R;
@@ -40,7 +41,7 @@ public class HomePage extends AppCompatActivity {
     private FirebaseFirestore db;
     private DatabaseReference databaseReference;
     TextView tx1;
-    Button delete,signout,seedetails,editprof,gotostore,profilepic;
+    Button delete,signout,seedetails,editprof,gotostore,profilepic,addpainting;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,14 +49,15 @@ public class HomePage extends AppCompatActivity {
         auth=FirebaseAuth.getInstance();
         db=FirebaseFirestore.getInstance();
         databaseReference= FirebaseDatabase.getInstance().getReference("Users");
-        user= auth.getCurrentUser();
-        delete=findViewById(R.id.Delete);
-        tx1=findViewById(R.id.textView);
-        seedetails=findViewById(R.id.seedetails);
-        signout=findViewById(R.id.signout);
-        editprof=findViewById(R.id.Edit);
-        gotostore=findViewById(R.id.paintingstore);
+        user = auth.getCurrentUser();
+        delete = findViewById(R.id.Delete);
+        tx1 = findViewById(R.id.textView);
+        seedetails = findViewById(R.id.seedetails);
+        signout = findViewById(R.id.signout);
+        editprof = findViewById(R.id.Edit);
+        gotostore = findViewById(R.id.paintingstore);
         profilepic = findViewById(R.id.profilepic);
+        addpainting = findViewById(R.id.addpainting);
         if (user.getUid()!=null)
         {
             getUserdata();
@@ -115,8 +117,7 @@ public class HomePage extends AppCompatActivity {
         seedetails.setVisibility(View.GONE);
         gotostore.setVisibility(View.GONE);
         profilepic.setVisibility(View.GONE);
-
-
+        addpainting.setVisibility(View.GONE);
     }
 
     public void seedetails(View view) {
@@ -130,6 +131,7 @@ public class HomePage extends AppCompatActivity {
         seedetails.setVisibility(View.GONE);
         gotostore.setVisibility(View.GONE);
         profilepic.setVisibility(View.GONE);
+        addpainting.setVisibility(View.GONE);
         seedetails seedetails = new seedetails();
         getSupportFragmentManager().beginTransaction().add(R.id.framelayout, seedetails).commit();
     }
@@ -184,6 +186,7 @@ public class HomePage extends AppCompatActivity {
         seedetails.setVisibility(View.GONE);
         gotostore.setVisibility(View.GONE);
         profilepic.setVisibility(View.GONE);
+        addpainting.setVisibility(View.GONE);
     }
 
     public void Profilepic(View view) {
@@ -197,5 +200,20 @@ public class HomePage extends AppCompatActivity {
         seedetails.setVisibility(View.GONE);
         gotostore.setVisibility(View.GONE);
         profilepic.setVisibility(View.GONE);
+        addpainting.setVisibility(View.GONE);
+    }
+
+    public void Add_Painting(View view) {
+        FragmentTransaction ft =getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.framelayout, new add_painting());
+        ft.commit();
+        delete.setVisibility(View.GONE);
+        tx1.setVisibility(View.GONE);
+        editprof.setVisibility(View.GONE);
+        signout.setVisibility(View.GONE);
+        seedetails.setVisibility(View.GONE);
+        gotostore.setVisibility(View.GONE);
+        profilepic.setVisibility(View.GONE);
+        addpainting.setVisibility(View.GONE);
     }
 }
