@@ -76,9 +76,6 @@ public class profile extends Fragment {
             @Override
             public void onClick(View view) {
                 AddusertoRealtimedatabase();
-                FragmentTransaction ft =getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.framelayout2, new paintingstore());
-                ft.commit();
             }
         });
     }
@@ -102,6 +99,9 @@ public class profile extends Fragment {
                 @Override
                 public void onSuccess(Void unused) {
                     Toast.makeText(getContext(), "User has been added", Toast.LENGTH_SHORT).show();
+                    FragmentTransaction ft =getActivity().getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.framelayout2, new paintingstore());
+                    ft.commit();
                     return;
                 }
             }).addOnFailureListener(new OnFailureListener() {
