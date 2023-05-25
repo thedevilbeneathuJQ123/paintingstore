@@ -21,6 +21,7 @@
             android:ems="10"
             android:hint="Email..."
             android:inputType="textEmailAddress"
+            android:textColor="@color/white"
             android:minHeight="48dp"
             app:layout_constraintStart_toEndOf="@+id/btnBackToLogin"
             app:layout_constraintTop_toBottomOf="@+id/btnBackToLogin" />
@@ -33,6 +34,7 @@
             android:ems="10"
             android:hint="Password..."
             android:inputType="textPassword"
+            android:textColor="@color/white"
             android:minHeight="48dp"
             app:layout_constraintStart_toStartOf="@+id/etEmailRegister"
             app:layout_constraintTop_toBottomOf="@+id/etEmailRegister" />
@@ -45,6 +47,7 @@
             android:ems="10"
             android:hint="Confirm Password..."
             android:inputType="textPassword"
+            android:textColor="@color/white"
             android:minHeight="48dp"
             app:layout_constraintStart_toStartOf="@+id/etPasswordRegister"
             app:layout_constraintTop_toBottomOf="@+id/etPasswordRegister" />
