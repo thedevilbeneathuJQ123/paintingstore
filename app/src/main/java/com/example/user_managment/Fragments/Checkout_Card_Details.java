@@ -142,7 +142,8 @@ public class Checkout_Card_Details extends Fragment {
             mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(stringReceiverEmail));
 
             mimeMessage.setSubject("Subject: Paintings purchase");
-            mimeMessage.setText("Thank you for your purchase");
+            String total = ut.getStringSeeDetailsBundle("total");
+            mimeMessage.setText("Thank you for your purchase, The Total:" + total);
 
             Thread thread = new Thread(new Runnable() {
                 @Override

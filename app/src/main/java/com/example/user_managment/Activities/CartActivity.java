@@ -21,6 +21,7 @@ import com.example.user_managment.adapter.MyCartAdapter;
 import com.example.user_managment.eventbus.MyUpdateCartEvent;
 import com.example.user_managment.listener.ICartLoadListener;
 import com.example.user_managment.model.CartModel;
+import com.example.user_managment.utils.Utilities;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -178,6 +179,9 @@ public class CartActivity extends AppCompatActivity implements ICartLoadListener
         {
             sum+=cartModel.getTotalprice();
         }
+        String tmpStr10 = String.valueOf(sum);
+        Utilities u = Utilities.getInstance();
+        u.AddSeeDetailsBundlestring("total", tmpStr10);
         txtTotal.setText(new StringBuilder("$").append(sum));
         MyCartAdapter adapter = new MyCartAdapter(this,cartModelList);
         recyclerCart.setAdapter(adapter);
