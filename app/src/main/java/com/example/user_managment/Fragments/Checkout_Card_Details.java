@@ -143,7 +143,7 @@ public class Checkout_Card_Details extends Fragment {
 
             mimeMessage.setSubject("Subject: Paintings purchase");
             String total = ut.getStringSeeDetailsBundle("total");
-            mimeMessage.setText("Thank you for your purchase, The Total:" + total);
+            mimeMessage.setText("Thank you for your purchase, The Total: " + total + "$");
 
             Thread thread = new Thread(new Runnable() {
                 @Override
