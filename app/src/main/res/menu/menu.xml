@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/signout"
-        android:title="Sign Out"
-        ></item>
-    <item
         android:id="@+id/settings"
         android:title="Settings"
+        ></item>
+    <item
+        android:id="@+id/signout"
+        android:title="Sign Out"
         ></item>
 </menu>
