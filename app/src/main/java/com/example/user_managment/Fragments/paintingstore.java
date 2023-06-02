@@ -3,10 +3,12 @@ package com.example.user_managment.Fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.user_managment.Activities.CartActivity;
 import com.example.user_managment.Activities.HomePage;
+import com.example.user_managment.Activities.MainActivity;
 import com.example.user_managment.R;
 import com.example.user_managment.adapter.MyPaintingAdapter;
 import com.example.user_managment.eventbus.MyUpdateCartEvent;
@@ -169,6 +172,7 @@ public class paintingstore extends Fragment implements IPaintingLoadListener, IC
                 });
     }
     private void init(View v) {
+        FirebaseAuth auth=FirebaseAuth.getInstance();
         ButterKnife.bind(this,v);
         paintingLoadListener = this;
         cartLoadListener = this;
@@ -179,8 +183,33 @@ public class paintingstore extends Fragment implements IPaintingLoadListener, IC
         recyclerPainting.addItemDecoration(new SpaceItemDecoration());
         
         btnCart.setOnClickListener(view -> startActivity(new Intent(getActivity(), CartActivity.class)));
-        btnBack.setOnClickListener(view -> startActivity(new Intent(getActivity(), HomePage.class)));
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(getContext(), btnBack);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId()){
+                            case R.id.signout:
+                                auth.signOut();
+                                Intent i=new Intent(getActivity(), MainActivity.class);
+                                startActivity(i);
+                                return true;
+                            case R.id.settings:
+                                startActivity(new Intent(getActivity(), HomePage.class));
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+                popupMenu.inflate(R.menu.menu);
+                popupMenu.show();   
+            }
+        });
     }
+    
 
     @Override
     public void onPaintingLoadSuccess(List<PaintingModel> paintingModelList) {
